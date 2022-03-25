@@ -1,0 +1,323 @@
+$social-bar-position: left; // Change this value to `right` for changing sidebar's position.
+$social-bar-transformation: rem-calc(140);
+$social-bar-width: rem-calc(180);
+$social-bar-background: #333333;
+$social-icon-color: $white;
+$social-icon-transition: all 0.3s ease-in-out;
+$social-icon-font-size: 1.1rem;
+$social-icon-padding: 0.5rem;
+
+// Source: https://designpieces.com/2012/12/social-media-colours-hex-and-rgb/
+$social-brand-facebook: #3b5998;
+$social-brand-twitter: #224b6b;
+$social-brand-linkedin: #007bb5;
+$social-brand-youtube: #bb0000;
+$social-brand-instagram: #125688;
+$social-brand-pinterest: #cb2027;
+
+.sticky-social-bar {
+  padding: 0;
+  margin: 0; 
+  top: 50%;
+  transform: translateY(-50%);
+  width: $social-bar-width;
+  background-color: $social-bar-background;
+  position: fixed;
+	
+  @if $social-bar-position == left {
+	  left: $social-bar-transformation * -1;
+  }
+  @if $social-bar-position == right {
+	  right: $social-bar-transformation * -1;
+  }
+
+  .social-icon {
+    list-style-type: none;
+    color: $social-icon-color;
+    background-color: inherit;
+    margin: 0;
+    transition: $social-icon-transition;
+    cursor: pointer;
+    font-size: $social-icon-font-size;
+    padding: 0.25rem 0.25rem 0.5rem;
+
+    &:first-of-type {
+	    padding-top: 0.375rem;
+    }
+    &:last-of-type {
+	    padding-bottom: 0.625rem;
+    }
+
+    > a {
+      color: inherit;
+      background-color: inherit;
+
+      > .fa {
+        padding: $social-icon-padding;
+        width: 2rem;
+        height: 2rem;
+
+        @if $social-bar-position == left {
+          float: right;
+          margin-left: 0.5rem;
+        }
+        @if $social-bar-position == right {
+          float: left;
+          margin-right: 0.5rem;
+        }
+
+        &.fa-facebook {
+          background-color: $social-brand-facebook;
+        }
+        &.fa-twitter {
+          background-color: $social-brand-twitter;
+        }
+        &.fa-linkedin {
+          background-color: $social-brand-linkedin;
+        }
+        &.fa-youtube {
+          background-color: $social-brand-youtube;
+        }
+        &.fa-instagram {
+          background-color: $social-brand-instagram;
+        }
+        &.fa-pinterest-p {
+          background-color: $social-brand-pinterest;
+        }
+      }
+
+      > .social-icon-text {
+        font-size: 80%;
+        color: $social-icon-color;
+        text-transform: uppercase;
+
+        @if $social-bar-position == left {
+          margin-right: 0.5rem;
+        }
+        @if $social-bar-position == right {
+          margin-left: 0.5rem;
+        }
+      }
+    }
+
+    &:hover {
+
+      @if $social-bar-position == left {
+        transform:translateX($social-bar-transformation * 1);
+      }
+      @if $social-bar-position == right {
+        transform:translateX($social-bar-transformation * -1);
+      }
+
+      > a {
+        color: inherit;
+        background-color: inherit;
+      }
+    }
+  }
+}
+
+
+
+
+
+
+/// Defatul bottom margin of the panel
+/// @type List
+$panel-margin: rem-calc(20 10);
+/// Default background color of the panel
+/// @type Color
+$panel-container-background-color: $white !default;
+
+/// Default radius of the panel
+/// @type List
+$panel-container-radius: $global-radius !default;
+
+/// Default bottom border width of the panel's header
+/// @type Number
+$panel-header-border-bottom-width: rem-calc(4) !default;
+
+/// Default bottom border color of the panel's header
+/// @type Color
+$panel-header-border-bottom-color: $light-gray !default;
+
+/// Default font color of the panel's title
+/// @type Color
+$panel-header-color: $dark-gray;
+
+/// Default font size of the panel's title
+/// @type Number
+$panel-header-font-size: rem-calc(26) !default;
+
+/// Default bottom border color of the post
+/// @type Color
+$post-item-border-bottom-color: $light-gray !default;
+
+/// Default bottom border width of the post
+/// @type Number
+$post-item-border-bottom-width: rem-calc(1) !default;
+
+/// Adds styles for post-list's elements in small screen and it also could be used for bigger screen in small areas
+@mixin small-posts-list {
+  .posts-list{
+    .post-title{
+      font-size: rem-calc(18);
+    }
+
+    .post-meta{
+      font-size: rem-calc(12);
+    }
+
+    .post-summary{
+      font-size: rem-calc(12);
+    }
+    .post-read-more{
+      display: none;
+    }
+  }
+}
+
+
+.posts-panel{
+  @include grid-col-row();
+  float: none !important;
+  margin: $panel-margin;
+  background-color: $panel-container-background-color;
+  border-radius: $panel-container-radius;
+  box-shadow: rem-calc(0 0 4 0) rgba(0,0,0,.2);
+
+  .panel-header{
+    @include grid-col-row();
+    border-bottom: $panel-header-border-bottom-width solid $panel-header-border-bottom-color;
+
+    .panel-title{
+      margin: 0;
+      padding: rem-calc(15 0);
+      color: $panel-header-color;
+      font-size: $panel-header-font-size;
+    }
+  }
+
+  .panel-content{
+    padding: rem-calc(15 0);
+  }
+
+  .pinned-post, .posts-list{
+    @include grid-col-row($gutters: 0);
+  }
+
+  .posts-list{
+    .post-item:not(:last-child){
+      border-bottom: $post-item-border-bottom-width solid $post-item-border-bottom-color;
+    }
+  }
+
+  .post-item{
+    @include grid-row();
+    padding: rem-calc(15 0);
+
+    .post-thumbnail{
+      display: block;
+      @include grid-column($columns: 4);
+
+      img{
+        width: 100%;
+        height: auto;
+      }
+    }
+
+    .post-text{
+      @include grid-column($columns: 8);
+
+      p{
+        margin: 0;
+      }
+    }
+    .post-title{
+      font-size: rem-calc(26);
+    }
+    .post-meta{
+      color: $dark-gray;
+      font-size: rem-calc(14);
+    }
+    .meta{
+      display: inline-block;
+      margin-#{$global-right}: rem-calc(15);
+    }
+    .meta-icon, .meta-text{
+      display: inline-block;
+      padding-#{$global-right}: rem-calc(5);
+    }
+
+    .post-summary{
+
+    }
+
+    .post-read-more{
+      display: block;
+      font-size: rem-calc(14);
+
+      .fa{
+        padding: rem-calc(0 5)
+      }
+    }
+  }
+
+  .pinned-post{
+    .post-item{
+      border-bottom: $post-item-border-bottom-width solid $post-item-border-bottom-color;
+    }
+    .post-thumbnail{
+      display: block;
+      @include grid-col-row();
+      img{
+        width: 100%;
+        height: auto;
+      }
+    }
+
+    .post-text{
+      @include grid-col-row();
+      margin-top: rem-calc(15);
+    }
+  }
+
+  @include breakpoint(small only){
+    @include small-posts-list;
+  }
+
+  @include breakpoint(medium only){
+    .posts-list{
+      .post-title{
+        font-size: rem-calc(20);
+      }
+
+      .post-meta{
+        font-size: rem-calc(14);
+      }
+
+      .post-summary{
+        font-size: rem-calc(14);
+      }
+    }
+  }
+
+  // Grid styles
+  &.grid{
+    .pinned-post, .posts-list{
+      @include grid-column($columns: 6, $gutters: 0);
+
+      @include breakpoint(small only){
+        @include grid-col-row($gutters: 0);
+      }
+    }
+
+    .pinned-post{
+      .post-item{
+        border: 0;
+      }
+    }
+
+    @include small-posts-list;
+  }
+}
